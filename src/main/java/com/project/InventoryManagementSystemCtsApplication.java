@@ -9,12 +9,9 @@ public class InventoryManagementSystemCtsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(InventoryManagementSystemCtsApplication.class, args);
-
 		System.out.print("beni ikkada");
-
 		System.out.print("harsha ikkada");
 		System.out.print("rish");
-
-	}
+		System.out.print("\nhi");	}
 
 }
