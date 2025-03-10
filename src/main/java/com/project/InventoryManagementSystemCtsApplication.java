@@ -2,16 +2,15 @@ package com.project;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication(exclude=DataSourceAutoConfiguration.class)
+
+@SpringBootApplication
+//@ComponentScan(basePackages= {"com.project", "com.project.repository"})
 public class InventoryManagementSystemCtsApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(InventoryManagementSystemCtsApplication.class, args);
-		System.out.print("beni ikkada");
-		System.out.print("harsha ikkada");
-		System.out.print("rish");
-		System.out.print("\nhi");	}
+
+	}
 
 }
