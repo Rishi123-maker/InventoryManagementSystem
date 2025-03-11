@@ -1,5 +1,6 @@
 package com.project.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import java.util.Optional;
@@ -11,6 +12,8 @@ import com.project.entity.Order;
 
 import com.project.repository.OrderRepository;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 @Service
 public class OrderService {
 	@Autowired
@@ -24,7 +27,7 @@ private OrderRepository orderRepo;
 		return orderRepo.findByOrderId(id);
 	}
 public Optional<Order>getOrderByProductName(String name)
-{
+{ 
 	return orderRepo.findByProductName(name);
 }
 public Optional<Order>getOrderByStatus(String status)
@@ -38,5 +41,21 @@ public void updateOrderStatus(int id,String status) {
 		o.setStatus(status);
 	}
 	orderRepo.save(o);
+}
+public List<Order> getOrderByDate(LocalDate startDate, LocalDate endDate) {
+	return orderRepo.getOrderByDate(startDate,endDate);
+}
+
+public List<Object[]> getHighestOrderedProduct() {
+	Pageable pageable=PageRequest.of(0, 1);
+	return orderRepo.findHighestOrderedProduct(pageable);
+}
+public String deleteByOrderId(int id) {
+orderRepo.deleteById(id);
+	return "Successfully deleted";
+}
+public String deleteAll() {
+	orderRepo.deleteAll();
+	return "Deleted All entries";
 }
 }
