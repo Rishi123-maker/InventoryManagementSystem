@@ -1,5 +1,7 @@
 package com.project.controller;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +56,26 @@ public ResponseEntity<String> updateOrderStatus(@RequestParam int id, @RequestPa
 	orderService.updateOrderStatus(id,status);
 	return new ResponseEntity<String>("Updation Successful",HttpStatus.OK);
 }
+@GetMapping("/getOrderByDate")
+public ResponseEntity<List<Order>> getOrderByDate(@RequestParam LocalDate startDate,@RequestParam LocalDate endDate)
+{
+	return new ResponseEntity<>(orderService.getOrderByDate(startDate,endDate),HttpStatus.OK);
+}
+@GetMapping("/getHighestOrderedProduct")
+public ResponseEntity<List<Object[]>>getHighestOrderedProduct()
+{
+	return new ResponseEntity<>(orderService.getHighestOrderedProduct(),HttpStatus.OK);
+}
+@GetMapping("/deleteByOrderId/{id}")
+public ResponseEntity<String>deleteByOrderById(@PathVariable int id)
+{    
+	return new ResponseEntity<>(orderService.deleteByOrderId(id),HttpStatus.OK);
+}
+@GetMapping("/deleteAll")
+public ResponseEntity<String> deleteAll()
+{
+	return new ResponseEntity<>(orderService.deleteAll(),HttpStatus.OK);
+}
+
 
 }
