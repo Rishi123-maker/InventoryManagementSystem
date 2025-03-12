@@ -48,6 +48,7 @@ public void setStockLevel(int stockLevel) {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 }
 
 
