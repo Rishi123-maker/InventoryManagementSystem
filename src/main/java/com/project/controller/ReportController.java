@@ -21,7 +21,7 @@ import com.project.entity.Report;
 import com.project.service.ReportService;
 
 @RestController
-@RequestMapping("/report")
+@RequestMapping("/reports")
 public class ReportController {
 	
 	@Autowired
