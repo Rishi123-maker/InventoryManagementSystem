@@ -12,12 +12,15 @@ import com.project.entity.Order;
 
 import com.project.repository.OrderRepository;
 
+import jakarta.transaction.Transactional;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 @Service
 public class OrderService {
 	@Autowired
 private OrderRepository orderRepo;
+@Transactional
 	public void create(Order order)
 	{
 		orderRepo.save(order);

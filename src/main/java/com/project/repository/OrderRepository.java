@@ -11,12 +11,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.project.entity.Order;
+import com.project.entity.Order; 
+
 
 @Repository
 public interface OrderRepository extends JpaRepository <Order,Integer>{
+	
 Order findByOrderId(int id);
- @Query("Select o from Order o join Product p on o.productId=p.productId and p.name=:name")
+
+@Query("SELECT o FROM Order o JOIN o.product p WHERE p.name = :name")
 Optional<Order> findByProductName(@Param("name")String name);
  Optional<Order>findByStatus(String status);
  @Query(value="Select * from Orders where order_date > :startDate AND order_date<:endDate",nativeQuery=true)

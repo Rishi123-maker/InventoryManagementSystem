@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.entity.Order;
 import com.project.service.OrderService;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
@@ -35,6 +37,7 @@ public ResponseEntity<Order> getOrderByID(@PathVariable int id)
  return new ResponseEntity<>(orderService.getOrderById(id),HttpStatus.OK);
 }
 @PostMapping("/create")
+@Transactional
 public ResponseEntity<String> create(@RequestBody Order o)
 {
   orderService.create(o);
