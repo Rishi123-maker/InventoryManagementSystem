@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.entity.Report;
+import com.project.exception.IdNotFoundException;
+import com.project.exception.ResourceNotFoundException;
 import com.project.service.ReportService;
 
 @RestController
@@ -47,21 +49,35 @@ public class ReportController {
 	
 	@GetMapping("/findAllReports")
 	public ResponseEntity<List<Report>> findAllReports(){
-		return new ResponseEntity<List<Report>>(reportService.findAllReports(),HttpStatus.OK);
+		List<Report> reports = reportService.findAllReports();
+        if (reports.isEmpty()) {
+            throw new ResourceNotFoundException("No reports found");
+        }
+        return new ResponseEntity<>(reports, HttpStatus.OK);
+		//return new ResponseEntity<List<Report>>(reportService.findAllReports(),HttpStatus.OK);
 	}
 	
+//	@DeleteMapping("/deleteById/{id}")
+//	public ResponseEntity<String> deleteById(@PathVariable long id){
+//		Report report = reportService.getReportById(id).orElse(null);
+//		if(report!=null) {
+//			reportService.deleteById(id);
+//			return new ResponseEntity<String>(id+" Deleted successfully",HttpStatus.OK);
+//		}
+//		else {
+//			return new ResponseEntity<String>(id+" doesnot exist",HttpStatus.BAD_REQUEST);
+//		}
+//		
+//	}
+	
+	
 	@DeleteMapping("/deleteById/{id}")
-	public ResponseEntity<String> deleteById(@PathVariable long id){
-		Report report = reportService.getReportById(id).orElse(null);
-		if(report!=null) {
-			reportService.deleteById(id);
-			return new ResponseEntity<String>(id+" Deleted successfully",HttpStatus.OK);
-		}
-		else {
-			return new ResponseEntity<String>(id+" doesnot exist",HttpStatus.BAD_REQUEST);
-		}
-		
+	public ResponseEntity<String> deleteById(@PathVariable long id) {
+	    Report report = reportService.getReportById(id).orElseThrow(() -> new IdNotFoundException("Report with ID " + id + " does not exist"));
+	    reportService.deleteById(id);
+	    return new ResponseEntity<>(id + " Deleted successfully", HttpStatus.OK);
 	}
+
 	
 	@PutMapping("/updateData/{id}")
 	public ResponseEntity<String> updateData(@PathVariable long id, @RequestBody Report report){
@@ -77,12 +93,22 @@ public class ReportController {
 	
 	@GetMapping("/getReportByReportType/{reportType}")
 	public ResponseEntity<List<Report>> getReportByReportType(@PathVariable String reportType){
-		return new ResponseEntity<List<Report>>(reportService.getReportByReportType(reportType),HttpStatus.OK);
+		List<Report> reports = reportService.getReportByReportType(reportType);
+        if (reports.isEmpty()) {
+            throw new ResourceNotFoundException("No reports found");
+        }
+        return new ResponseEntity<>(reports, HttpStatus.OK);
+		//return new ResponseEntity<List<Report>>(reportService.getReportByReportType(reportType),HttpStatus.OK);
 	}
 	
 	@GetMapping("/getReportByDate")
 	public ResponseEntity<List<Report>> getReportByDate(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate){
-		return new ResponseEntity<List<Report>>(reportService.getReportByDate(startDate, endDate),HttpStatus.OK);
+		List<Report> reports = reportService.getReportByDate(startDate, endDate);
+        if (reports.isEmpty()) {
+            throw new ResourceNotFoundException("No reports found");
+        }
+        return new ResponseEntity<>(reports, HttpStatus.OK);
+		//return new ResponseEntity<List<Report>>(reportService.getReportByDate(startDate, endDate),HttpStatus.OK);
 	}
 	
 	
