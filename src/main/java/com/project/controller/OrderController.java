@@ -29,6 +29,7 @@ private OrderService orderService;
 @GetMapping("/")
 public ResponseEntity<String> Testing()
 {
+	System.out.println("this is testing");
 	return new ResponseEntity<>("Hi this is orders",HttpStatus.OK);
 }
 @GetMapping("/getById/{id}")
