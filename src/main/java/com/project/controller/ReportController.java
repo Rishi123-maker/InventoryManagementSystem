@@ -33,24 +33,24 @@ public class ReportController {
 		return new ResponseEntity<String>("Hi this is Reports",HttpStatus.OK);
 	}
 	
-	@GetMapping("/getReportById/{id}")
+	@GetMapping("/admin/getReportById/{id}")
 	public ResponseEntity<Optional<Report>> getReportById(@PathVariable long id)
 	{
 		return new ResponseEntity<>(reportService.getReportById(id),HttpStatus.OK);
 	}
 	
-	@PostMapping("/create")
+	@PostMapping("/admin/create")
 	public ResponseEntity<String> create(@RequestBody Report report) {
 		reportService.create(report);
 		return new ResponseEntity<>("Successfully created an entry",HttpStatus.OK);
 	}
 	
-	@GetMapping("/findAllReports")
+	@GetMapping("/admin/findAllReports")
 	public ResponseEntity<List<Report>> findAllReports(){
 		return new ResponseEntity<List<Report>>(reportService.findAllReports(),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/deleteById/{id}")
+	@DeleteMapping("/admin/deleteById/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable long id){
 		Report report = reportService.getReportById(id).orElse(null);
 		if(report!=null) {
@@ -63,7 +63,7 @@ public class ReportController {
 		
 	}
 	
-	@PutMapping("/updateData/{id}")
+	@PutMapping("/admin/updateData/{id}")
 	public ResponseEntity<String> updateData(@PathVariable long id, @RequestBody Report report){
 		Report rep = reportService.getReportById(id).orElse(null);
 		if(rep!=null) {
@@ -75,12 +75,12 @@ public class ReportController {
 		}
 	}
 	
-	@GetMapping("/getReportByReportType/{reportType}")
+	@GetMapping("/admin/getReportByReportType/{reportType}")
 	public ResponseEntity<List<Report>> getReportByReportType(@PathVariable String reportType){
 		return new ResponseEntity<List<Report>>(reportService.getReportByReportType(reportType),HttpStatus.OK);
 	}
 	
-	@GetMapping("/getReportByDate")
+	@GetMapping("/admin/getReportByDate")
 	public ResponseEntity<List<Report>> getReportByDate(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate){
 		return new ResponseEntity<List<Report>>(reportService.getReportByDate(startDate, endDate),HttpStatus.OK);
 	}

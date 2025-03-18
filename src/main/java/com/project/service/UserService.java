@@ -4,7 +4,4 @@ package com.project.service;
 //import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 public class UserService {
-
-	
-
 }

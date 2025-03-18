@@ -1,37 +1,32 @@
 package com.project.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="stocks")
+@Table(name = "stocks")
 public class Stock {
+    @Id
+    private int productId;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int productId;
-	private int quantity;
-	private String reorderLevel;
-	public int getProductId() {
-		return productId;
-	}
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	public String getReorderLevel() {
-		return reorderLevel;
-	}
-	public void setReorderLevel(String reorderLevel) {
-		this.reorderLevel = reorderLevel;
-	}
-	
+    private int quantity;
+    private String reorderLevel;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId
+    @JoinColumn(name = "productId")
+    @JsonBackReference // Helps prevent infinite recursion
+    private Product product;
+    // Getters and Setters
+    public int getProductId() { return productId; }
+    public void setProductId(int productId) { this.productId = productId; }
+
+    public Product getProduct() { return product; }
+    public void setProduct(Product product) { this.product = product; }
+
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
+
+    public String getReorderLevel() { return reorderLevel; }
+    public void setReorderLevel(String reorderLevel) { this.reorderLevel = reorderLevel; }
 }

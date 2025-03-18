@@ -2,67 +2,57 @@ package com.project.entity;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
+
 @Entity
-@Table(name="Products")
+@Table(name = "Products")
 public class Product {
-@Id
-@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int productId;
-private String name;
-@Column(name="description")
-private String desc;
-private int price;
-private int stockLevel;
-@OneToMany(mappedBy="product",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
-private List<Order> orders;
-public List<Order> getOrders() {
-	return orders;
-}
-public void setOrders(List<Order> orders) {
-	this.orders = orders;
-}
-public int getProductId() {
-	return productId;
-}
-public void setProductId(int productId) {
-	this.productId = productId;
-}
-public String getDesc() {
-	return desc;
-}
-public void setDesc(String desc) {
-	this.desc = desc;
-}
-public int getPrice() {
-	return price;
-}
-public void setPrice(int price) {
-	this.price = price;
-}
-public int getStockLevel() {
-	return stockLevel;
-}
-public void setStockLevel(int stockLevel) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Use IDENTITY for auto-increment
+    private int productId;
+    
+    private String name;
+    
+    @Column(name = "description")
+    private String desc;
+    @OneToMany(mappedBy="product",cascade=CascadeType.ALL)
+    private List<Order> orders;
+    private double price;
+    private int stockLevel;
 
-	this.stockLevel = stockLevel;
-}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-}
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)// orphanRemoval = true)
+  @JsonManagedReference // Helps prevent infinite recursion
+    private Stock stock;
+//
+//    @Version
+//    private int version;
 
+    // Getters and Setters
+    public int getProductId() { return productId; }
+    public void setProductId(int productId) { this.productId = productId; }
 
+    public String getDesc() { return desc; }
+    public void setDesc(String desc) { this.desc = desc; }
+
+    public double getPrice() { return price; }
+    public void setPrice(double price2) { this.price = price2; }
+
+    public int getStockLevel() { return stockLevel; }
+    public void setStockLevel(int stockLevel) { this.stockLevel = stockLevel; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+//    public int getVersion() { return version; }
+//    public void setVersion(int version) { this.version = version; }
+//
+    public Stock getStock() { return stock; }
+    public void setStock(Stock stock) {
+        this.stock = stock;
+        if (stock != null) {
+            stock.setProduct(this); // Ensuring bidirectional mapping
+        }
+    }
+}

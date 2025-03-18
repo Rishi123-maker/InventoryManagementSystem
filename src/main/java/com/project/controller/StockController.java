@@ -30,45 +30,45 @@ public class StockController {
 		return new ResponseEntity<>("Hi this is stocks", HttpStatus.OK);
 	}
 
-	@GetMapping("/getById/{id}")
+	@GetMapping("/admin/getById/{id}")
 	public ResponseEntity<Optional<Stock>> getStockByID(@PathVariable int id) {
 		return new ResponseEntity<>(stockService.getStockById(id), HttpStatus.OK);
 	}
 
-	@PostMapping("/create")
+	@PostMapping("/admin/create")
 	public ResponseEntity<String> create(@RequestBody Stock s) {
 		stockService.create(s);
 		return new ResponseEntity<>("Successfully created an entry", HttpStatus.OK);
 	}
 
-	@GetMapping("/getStockByReorderLevel/{reorderLevel}")
+	@GetMapping("/admin/getStockByReorderLevel/{reorderLevel}")
 	public ResponseEntity<List<Stock>> getStockByReorderLevel(@PathVariable String reorderLevel) {
 
 		stockService.getStockByReorderLevel(reorderLevel);
 		return new ResponseEntity<>(stockService.getStockByReorderLevel(reorderLevel), HttpStatus.OK);
 	}
 
-	@GetMapping("/getHighestQuantity")
+	@GetMapping("/admin/getHighestQuantity")
 	public ResponseEntity<List<Object[]>> getHighestQuantity() {
 		return new ResponseEntity<>(stockService.getHighestQuantity(), HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deleteById/{id}")
+	@DeleteMapping("/admin/deleteById/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable int id) {
 		return new ResponseEntity<String>(stockService.deleteById(id), HttpStatus.OK);
 	}
 
-	@DeleteMapping("/deleteAll")
+	@DeleteMapping("/admin/deleteAll")
 	public ResponseEntity<String> deleteAll() {
 		return new ResponseEntity<String>(stockService.deleteAll(), HttpStatus.OK);
 	}
 
-	@GetMapping("/findAll")
+	@GetMapping("/admin/findAll")
 	public ResponseEntity<List<Stock>> findAll() {
 		return new ResponseEntity<List<Stock>>(stockService.findAll(), HttpStatus.OK);
 	}
 
-	@PutMapping("/updateStockQuantity/{id}/{quantity}")
+	@PutMapping("/admin/updateStockQuantity/{id}/{quantity}")
 	public ResponseEntity<String> updateStockQuantity(@PathVariable int id, @PathVariable int quantity) {
 		String response = stockService.updateStockQuantity(id, quantity);
 		if (response.equals("Stock quantity updated successfully")) {

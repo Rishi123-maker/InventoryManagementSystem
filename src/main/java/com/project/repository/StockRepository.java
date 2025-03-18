@@ -15,5 +15,5 @@ public interface StockRepository extends JpaRepository<Stock, Integer> {
 
 	@Query(value = "Select * from stocks order by quantity desc", nativeQuery = true)
 	List<Object[]> findHighestQuantity(Pageable pageable);
-
+    
 }

@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.project.entity.Stock;
+import com.project.exception.IdNotFoundException;
+import com.project.exception.ResourceNotFoundException;
 import com.project.repository.StockRepository;
 
 @Service
@@ -23,7 +25,12 @@ public class StockService {
 	}
 
 	public Optional<Stock> getStockById(int id) {
-		return stockRepo.findById(id);
+		Optional<Stock>  stock=stockRepo.findById(id);
+		if(stock==null)
+		{
+			throw new IdNotFoundException("Id has not been found");
+		}
+		return stock;
 	}
 
 	public List<Stock> getStockByReorderLevel(String reorderLevel) {
@@ -37,6 +44,11 @@ public class StockService {
 	}
 
 	public String deleteById(int id) {
+		Optional<Stock> stock=stockRepo.findById(id);
+		if(stock.isEmpty())
+		{
+			throw new IdNotFoundException("Id has not been found");
+		}
 		stockRepo.deleteById(id);
 		return "Deleted Successfully";
 	}
@@ -58,7 +70,7 @@ public class StockService {
 			stockRepo.save(stock);
 			return "Stock quantity updated successfully";
 		} else {
-			return "Stock not found";
+			throw new ResourceNotFoundException("Resource Has not been Found");
 		}
 	}
 }

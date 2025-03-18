@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.entity.Report;
+import com.project.exception.IdNotFoundException;
+import com.project.exception.InappropriateDateException;
+import com.project.exception.ResourceNotFoundException;
 import com.project.repository.ReportRepository;
 
 @Service
@@ -17,12 +20,19 @@ public class ReportService {
 	@Autowired
 	private ReportRepository reportRepo;
 
-	public void create(Report report) {
+	public void create(Report report)  {
+		
 		reportRepo.save(report);
 	}
 
 	public Optional<Report> getReportById(long id) {
-		return reportRepo.findById(id);
+		Optional <Report> report =reportRepo.findById(id);
+		
+		if(report.isEmpty())
+		{
+			throw new IdNotFoundException("Id not found");
+		}
+		return report;
 	}
 
 	public List<Report> findAllReports() {
@@ -39,11 +49,21 @@ public class ReportService {
 	}
 	
 	public List<Report> getReportByReportType(String reportType) {
-		return reportRepo.findByReportType(reportType);
+		List<Report> reports =reportRepo.findByReportType(reportType);
+		if(reports.size()==0)
+		{
+			throw new ResourceNotFoundException("report not found");
+		}
+		return  reports;
 	}
 	
 	public List<Report> getReportByDate(LocalDate startDate, LocalDate endDate){
-		return reportRepo.findByStartDateBetween(startDate, endDate);
+		List<Report> reports =reportRepo.findByStartDateBetween(startDate, endDate);
+		if(reports.size()==0)
+		{
+			throw new InappropriateDateException("Enter correct date");
+		}
+		return reports;
 	}
 	
 }
