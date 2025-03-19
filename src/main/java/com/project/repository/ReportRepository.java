@@ -12,6 +12,8 @@ import com.project.entity.Report;
 @Repository
 public interface ReportRepository extends JpaRepository<Report, Long>{
 
+	
+	public Report findById(long id);
 	public List<Report> findByReportType(String reportType);
 
 	//public Report findReportByDate(LocalDate date);

@@ -36,13 +36,13 @@ public class OrderService {
 		return orderRepo.findByStatus(status);
 	}
 
-	public void updateOrderStatus(int id, String status) {
-		Order o = orderRepo.findByOrderId(id);
-		if (o != null) {
-			o.setStatus(status);
-		}
-		orderRepo.save(o);
-	}
+//	public void updateOrderStatus(int id, String status) {
+//		Optional<Order> o = orderRepo.findByOrderId(id);
+//		if (o != null) {
+//			o.setStatus(status);
+//		}
+//		orderRepo.save(o);
+//	}
 
 	public List<Order> getOrderByDate(LocalDate startDate, LocalDate endDate) {
 		return orderRepo.getOrderByDate(startDate, endDate);
@@ -53,9 +53,9 @@ public class OrderService {
 		return orderRepo.findHighestOrderedProduct(pageable);
 	}
 
-	public String deleteByOrderId(int id) {
+	public void deleteByOrderId(int id) {
 		orderRepo.deleteById(id);
-		return "Successfully deleted";
+		//return "Successfully deleted";
 	}
 
 	public String deleteAll() {

@@ -21,7 +21,7 @@ public class ReportService {
 		reportRepo.save(report);
 	}
 
-	public Optional<Report> getReportById(long id) {
+	public Report getReportById(long id) {
 		return reportRepo.findById(id);
 	}
 

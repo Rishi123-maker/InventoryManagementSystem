@@ -35,10 +35,23 @@ public class ReportController {
 		return new ResponseEntity<String>("Hi this is Reports",HttpStatus.OK);
 	}
 	
+//	@GetMapping("/getReportById/{id}")
+//	public ResponseEntity<Optional<Report>> getReportById(@PathVariable long id)
+//	{
+//		return new ResponseEntity<>(reportService.getReportById(id),HttpStatus.OK);
+//	}
+	
+	
 	@GetMapping("/getReportById/{id}")
-	public ResponseEntity<Optional<Report>> getReportById(@PathVariable long id)
+	public ResponseEntity<?> getReportById(@PathVariable long id)
 	{
-		return new ResponseEntity<>(reportService.getReportById(id),HttpStatus.OK);
+		
+			Report report = reportService.getReportById(id);
+	if(report==null)
+	{
+		throw new IdNotFoundException("god bless you harsha");
+	}
+	return new ResponseEntity<>(report,HttpStatus.OK);
 	}
 	
 	@PostMapping("/create")
@@ -47,15 +60,17 @@ public class ReportController {
 		return new ResponseEntity<>("Successfully created an entry",HttpStatus.OK);
 	}
 	
-	@GetMapping("/findAllReports")
-	public ResponseEntity<List<Report>> findAllReports(){
-		List<Report> reports = reportService.findAllReports();
-        if (reports.isEmpty()) {
-            throw new ResourceNotFoundException("No reports found");
-        }
-        return new ResponseEntity<>(reports, HttpStatus.OK);
-		//return new ResponseEntity<List<Report>>(reportService.findAllReports(),HttpStatus.OK);
-	}
+//	@GetMapping("/findAllReports")
+//	public ResponseEntity<List<Report>> findAllReports(){
+//		List<Report> reports = reportService.findAllReports();
+//        if (reports.isEmpty()) {
+//            throw new ResourceNotFoundException("No reports found");
+//        }
+//        return new ResponseEntity<>(reports, HttpStatus.OK);
+//		//return new ResponseEntity<List<Report>>(reportService.findAllReports(),HttpStatus.OK);
+//	}
+	
+	
 	
 //	@DeleteMapping("/deleteById/{id}")
 //	public ResponseEntity<String> deleteById(@PathVariable long id){
@@ -73,22 +88,30 @@ public class ReportController {
 	
 	@DeleteMapping("/deleteById/{id}")
 	public ResponseEntity<String> deleteById(@PathVariable long id) {
-	    Report report = reportService.getReportById(id).orElseThrow(() -> new IdNotFoundException("Report with ID " + id + " does not exist"));
+	    Report report = reportService.getReportById(id);
 	    reportService.deleteById(id);
 	    return new ResponseEntity<>(id + " Deleted successfully", HttpStatus.OK);
 	}
 
 	
+//	@PutMapping("/updateData/{id}")
+//	public ResponseEntity<String> updateData(@PathVariable long id, @RequestBody Report report){
+//		Report rep = reportService.getReportById(id).orElse(null);
+//		if(rep!=null) {
+//			reportService.updateData(report);
+//			return new ResponseEntity<String>(id+" updated successfully",HttpStatus.OK);
+//		}
+//		else {
+//			return new ResponseEntity<String>(id+" doesnot exist",HttpStatus.BAD_REQUEST);
+//		}
+//	}
+	
+	
 	@PutMapping("/updateData/{id}")
-	public ResponseEntity<String> updateData(@PathVariable long id, @RequestBody Report report){
-		Report rep = reportService.getReportById(id).orElse(null);
-		if(rep!=null) {
-			reportService.updateData(report);
-			return new ResponseEntity<String>(id+" updated successfully",HttpStatus.OK);
-		}
-		else {
-			return new ResponseEntity<String>(id+" doesnot exist",HttpStatus.BAD_REQUEST);
-		}
+	public ResponseEntity<String> updateData(@PathVariable long id, @RequestBody Report report) {
+	    Report rep = reportService.getReportById(id);
+	    reportService.updateData(report);
+	    return new ResponseEntity<>(id + " updated successfully", HttpStatus.OK);
 	}
 	
 	@GetMapping("/getReportByReportType/{reportType}")
@@ -98,7 +121,7 @@ public class ReportController {
             throw new ResourceNotFoundException("No reports found");
         }
         return new ResponseEntity<>(reports, HttpStatus.OK);
-		//return new ResponseEntity<List<Report>>(reportService.getReportByReportType(reportType),HttpStatus.OK);
+		//return new ResponseEntity<List<Report>>(reportService.getReportByReportType(reportType),HttpStatus.OK);		one line return statement
 	}
 	
 	@GetMapping("/getReportByDate")
