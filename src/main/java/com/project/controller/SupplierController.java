@@ -9,44 +9,46 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.entity.Supplier;
-import com.project.service.SupplierService;
+import com.project.serviceimpl.SupplierServiceImpl;
 
 
 
 @RestController
+@RequestMapping("/suppliers")
 public class SupplierController {
 	
 	@Autowired
-	private SupplierService supplierService;
+	private SupplierServiceImpl supplierService;
 	
-	@GetMapping("/getAll")
+	@GetMapping("/admin/getAll")
 	public List<Supplier> getSupplier(Supplier s){
 		return supplierService.getAllSuppliers();
 	}
 	
-	@PostMapping("/create")
+	@PostMapping("/admin/create")
 	public String create(@RequestBody Supplier s) {
 		return supplierService.createSupplierDetails(s);
 	}
 	
-	@GetMapping("/getById/{id}")
+	@GetMapping("/admin/getById/{id}")
 	public Supplier getSupplierById(@PathVariable int id) {
 		return supplierService.getSupplierById(id);
 	}
-	@GetMapping("getByName/{name}")
+	@GetMapping("/admin/getByName/{name}")
 	public Supplier getSupplierByName(@PathVariable String name) {
 		return supplierService.getSupplierByName(name);
 	}
 	
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/admin/delete/{id}")
 	public String deleteSupplierById(@PathVariable int id) {
 		return supplierService.deleteSupplierById(id);
 	}
 	
-	@PutMapping("/updateName/{id}/{name}")
+	@PutMapping("/admin/updateName/{id}/{name}")
 	public String updateSupplierById(@PathVariable int id, @PathVariable String name) {
 		return supplierService.updateSupplier(id, name);
 	}
@@ -56,7 +58,7 @@ public class SupplierController {
 //		return supplierService.updateSupplierContactInfo(id, contactInfo);
 //
 //	}
-	@PutMapping("/updateContactInfo/{id}/{contactInfo}")
+	@PutMapping("/admin/updateContactInfo/{id}/{contactInfo}")
 	public String updateSupplierContactInfo(@PathVariable int id, @PathVariable String contactInfo) {
 		return supplierService.updateSupplierContactInfo(id, contactInfo);
 
@@ -67,7 +69,7 @@ public class SupplierController {
 
 	}
 	
-	@DeleteMapping("/deleteAll")
+	@DeleteMapping("/admin/deleteAll")
 	public String deleteAllSuppliers() {
 	    return supplierService.deleteAllSuppliers();
 //	    return "All suppliers have been deleted successfully.";

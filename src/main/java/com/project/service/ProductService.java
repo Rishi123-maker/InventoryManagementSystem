@@ -1,17 +1,28 @@
 package com.project.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
 
 import com.project.entity.Product;
-import com.project.repository.ProductRepository;
-@Service
-public class ProductService {
-	@Autowired
-	private ProductRepository productRepo;
-public void create(Product product)
-{
-	productRepo.save(product);
-}
 
+public interface ProductService {
+    String create(Product p) throws Exception;
+
+    List<Product> getProductDetails();
+
+    Optional<Product> getByProductId(int id);
+
+    Product getByProductName(String name);
+
+    String updateProductName(int id, String name);
+
+    String updateProductDescription(int id, String description);
+
+    String updateProductPrice(int id, double price);
+
+    String updateProductStockLevel(int id, int stockLevel);
+
+    String deleteById(int id);
+
+    String deleteAll();
 }

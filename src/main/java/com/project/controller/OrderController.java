@@ -20,80 +20,99 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.entity.Order;
 import com.project.entity.Report;
 import com.project.exception.IdNotFoundException;
-import com.project.service.OrderService;
+import com.project.exception.ResourceNotFoundException;
+import com.project.serviceimpl.OrderServiceImpl;
+
+import jakarta.transaction.Transactional;
 
 @RestController
 @RequestMapping("/orders")
 public class OrderController {
 @Autowired
-private OrderService orderService;
+private OrderServiceImpl orderService;
 @GetMapping("/")
 public ResponseEntity<String> Testing()
 {
+	System.out.println("this is testing");
 	return new ResponseEntity<>("Hi this is orders",HttpStatus.OK);
 }
 
-@GetMapping("/getById/{id}")
-public ResponseEntity<?> getOrderByID(@PathVariable int id)
+@GetMapping("/admin/getById/{id}")
+public ResponseEntity<Order> getOrderByID(@PathVariable int id)
+
 {
-	try {
-		Order order = orderService.getOrderById(id);
-		return new ResponseEntity<>(order, HttpStatus.OK);
-	}
 	
-	catch(IdNotFoundException e){
-		return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-	}
-	//return new ResponseEntity<>(orderService.getOrderById(id),HttpStatus.OK);
+	return new ResponseEntity<>(orderService.getOrderById(id), HttpStatus.OK);
 }
 
-@PostMapping("/create")
+
+
+@PostMapping("/customer/create")
+@Transactional
+
 public ResponseEntity<String> create(@RequestBody Order o)
 {
   orderService.create(o);
   return new ResponseEntity<>("Successfully created an entry",HttpStatus.OK);
 }
-@GetMapping("/getOrderByProductName/{name}")
+@GetMapping("/admin/getOrderByProductName/{name}")
 public ResponseEntity<Optional<Order>> getOrderByProductName(@PathVariable String name)
 {
  return new ResponseEntity<>(orderService.getOrderByProductName(name),HttpStatus.OK);
 }
 
-@GetMapping("/getOrderByStatus/{status}")
+
+
+@GetMapping("/admin/getOrderByStatus/{status}")
+
 public ResponseEntity<Optional<Order>> getOrderByStatus(@PathVariable String status)
 {
 	return new ResponseEntity<>(orderService.getOrderByStatus(status),HttpStatus.OK);
 }
 
-@PutMapping("/updateOrderStatus")
+
+@PutMapping("/admin/updateOrderStatus")
+
 public ResponseEntity<String> updateOrderStatus(@RequestParam int id, @RequestParam String status)
 {
 	//orderService.updateOrderStatus(id,status);
 	return new ResponseEntity<String>("Updation Successful",HttpStatus.OK);
 }
 
-@GetMapping("/getOrderByDate")
+@GetMapping("/admin/getOrderByDate")
+
 public ResponseEntity<List<Order>> getOrderByDate(@RequestParam LocalDate startDate,@RequestParam LocalDate endDate)
 {
 	return new ResponseEntity<>(orderService.getOrderByDate(startDate,endDate),HttpStatus.OK);
 }
 
-@GetMapping("/getHighestOrderedProduct")
+
+
+@GetMapping("/admin/getHighestOrderedProduct")
+
 public ResponseEntity<List<Object[]>>getHighestOrderedProduct()
 {
 	return new ResponseEntity<>(orderService.getHighestOrderedProduct(),HttpStatus.OK);
 }
 
-@DeleteMapping("/deleteByOrderId/{id}")
+
+
+@DeleteMapping("/customer/deleteByOrderId/{id}")
 public ResponseEntity<String>deleteByOrderById(@PathVariable int id)
 {    
-	Order order = orderService.getOrderById(id).orElseThrow(() -> new IdNotFoundException("Order with ID " + id + " does not exist"));
-    orderService.deleteByOrderId(id);
-    return new ResponseEntity<>(id + " Deleted successfully", HttpStatus.OK);
+	Order order = orderService.getOrderById(id);
+	if(order==null)
+	{
+		throw new ResourceNotFoundException("No Resource Found");
+	}
+    
+    return new ResponseEntity<>(orderService.deleteByOrderId(id), HttpStatus.OK);
 	//return new ResponseEntity<>(orderService.deleteByOrderId(id),HttpStatus.OK);
 }
 
-@DeleteMapping("/deleteAll")
+
+@DeleteMapping("/admin/deleteAll")
+
 public ResponseEntity<String> deleteAll()
 {
 	return new ResponseEntity<>(orderService.deleteAll(),HttpStatus.OK);

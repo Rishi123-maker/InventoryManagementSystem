@@ -1,12 +1,20 @@
 package com.project.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,7 +24,16 @@ public class Order {
 @GeneratedValue(strategy=GenerationType.IDENTITY)
 private int orderId;
 private int customerId;
-private int productId;
+@ManyToOne
+@JoinColumn(name="productId")
+private Product product;
+
+public Product getProduct() {
+	return product;
+}
+public void setProduct(Product product) {
+	this.product = product;
+}
 private int quantity;
 private LocalDate orderDate;
 private String status;
@@ -32,12 +49,7 @@ public int getCustomerId() {
 public void setCustomerId(int customerId) {
 	this.customerId = customerId;
 }
-public int getProductId() {
-	return productId;
-}
-public void setProductId(int productId) {
-	this.productId = productId;
-}
+
 public int getQuantity() {
 	return quantity;
 }

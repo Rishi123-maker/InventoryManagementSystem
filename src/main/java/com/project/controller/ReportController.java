@@ -20,14 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.entity.Report;
 import com.project.exception.IdNotFoundException;
 import com.project.exception.ResourceNotFoundException;
-import com.project.service.ReportService;
+import com.project.serviceimpl.ReportServiceImpl;
 
 @RestController
 @RequestMapping("/reports")
 public class ReportController {
 	
 	@Autowired
-	private ReportService reportService;
+	private ReportServiceImpl reportService;
 	
 	@GetMapping("/")
 	public ResponseEntity<String> Testing()
@@ -35,31 +35,29 @@ public class ReportController {
 		return new ResponseEntity<String>("Hi this is Reports",HttpStatus.OK);
 	}
 	
-//	@GetMapping("/getReportById/{id}")
-//	public ResponseEntity<Optional<Report>> getReportById(@PathVariable long id)
-//	{
-//		return new ResponseEntity<>(reportService.getReportById(id),HttpStatus.OK);
-//	}
+
 	
 	
-	@GetMapping("/getReportById/{id}")
-	public ResponseEntity<?> getReportById(@PathVariable long id)
+	
+	@GetMapping("/admin/getReportById/{id}")
+	public ResponseEntity<Optional<Report>> getReportById(@PathVariable long id)
+
 	{
 		
-			Report report = reportService.getReportById(id);
-	if(report==null)
-	{
-		throw new IdNotFoundException("god bless you harsha");
-	}
-	return new ResponseEntity<>(report,HttpStatus.OK);
+			Optional<Report> report = reportService.getReportById(id);
+			if (report == null) {
+				throw new IdNotFoundException("god bless you harsha");
+			}
+			return new ResponseEntity<>(report,HttpStatus.OK);
 	}
 	
-	@PostMapping("/create")
+	@PostMapping("/admin/create")
 	public ResponseEntity<String> create(@RequestBody Report report) {
 		reportService.create(report);
 		return new ResponseEntity<>("Successfully created an entry",HttpStatus.OK);
 	}
 	
+
 //	@GetMapping("/findAllReports")
 //	public ResponseEntity<List<Report>> findAllReports(){
 //		List<Report> reports = reportService.findAllReports();
@@ -86,11 +84,23 @@ public class ReportController {
 //	}
 	
 	
-	@DeleteMapping("/deleteById/{id}")
-	public ResponseEntity<String> deleteById(@PathVariable long id) {
-	    Report report = reportService.getReportById(id);
-	    reportService.deleteById(id);
-	    return new ResponseEntity<>(id + " Deleted successfully", HttpStatus.OK);
+
+	@GetMapping("/admin/findAllReports")
+	public ResponseEntity<List<Report>> findAllReports(){
+		return new ResponseEntity<List<Report>>(reportService.findAllReports(),HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/admin/deleteById/{id}")
+	public ResponseEntity<String> deleteById(@PathVariable long id){
+		Report report = reportService.getReportById(id).orElse(null);
+		if(report!=null) {
+			reportService.deleteById(id);
+			return new ResponseEntity<String>(id+" Deleted successfully",HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<String>(id+" doesnot exist",HttpStatus.BAD_REQUEST);
+		}
+
 	}
 
 	
@@ -107,14 +117,21 @@ public class ReportController {
 //	}
 	
 	
-	@PutMapping("/updateData/{id}")
-	public ResponseEntity<String> updateData(@PathVariable long id, @RequestBody Report report) {
-	    Report rep = reportService.getReportById(id);
-	    reportService.updateData(report);
-	    return new ResponseEntity<>(id + " updated successfully", HttpStatus.OK);
+
+	@PutMapping("/admin/updateData/{id}")
+	public ResponseEntity<String> updateData(@PathVariable long id, @RequestBody Report report){
+		Report rep = reportService.getReportById(id).orElse(null);
+		if(rep!=null) {
+			reportService.updateData(id, report);
+			return new ResponseEntity<String>(id+" updated successfully",HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity<String>(id+" doesnot exist",HttpStatus.BAD_REQUEST);
+		}
+
 	}
 	
-	@GetMapping("/getReportByReportType/{reportType}")
+	@GetMapping("/admin/getReportByReportType/{reportType}")
 	public ResponseEntity<List<Report>> getReportByReportType(@PathVariable String reportType){
 		List<Report> reports = reportService.getReportByReportType(reportType);
         if (reports.isEmpty()) {
@@ -124,7 +141,7 @@ public class ReportController {
 		//return new ResponseEntity<List<Report>>(reportService.getReportByReportType(reportType),HttpStatus.OK);		one line return statement
 	}
 	
-	@GetMapping("/getReportByDate")
+	@GetMapping("/admin/getReportByDate")
 	public ResponseEntity<List<Report>> getReportByDate(@RequestParam LocalDate startDate, @RequestParam LocalDate endDate){
 		List<Report> reports = reportService.getReportByDate(startDate, endDate);
         if (reports.isEmpty()) {

@@ -2,64 +2,26 @@ package com.project.service;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.project.entity.Order;
 
-import com.project.repository.OrderRepository;
+public interface OrderService {
+    void create(Order order);
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+    Order getOrderById(int id);
 
-@Service
-public class OrderService {
-	@Autowired
-	private OrderRepository orderRepo;
+    Optional<Order> getOrderByProductName(String name);
 
-	public void create(Order order) {
-		orderRepo.save(order);
-	}
+    Optional<Order> getOrderByStatus(String status);
 
-	public Order getOrderById(int id) {
-		return orderRepo.findByOrderId(id);
-	}
+    void updateOrderStatus(int id, String status);
 
-	public Optional<Order> getOrderByProductName(String name) {
-		return orderRepo.findByProductName(name);
-	}
+    List<Order> getOrderByDate(LocalDate startDate, LocalDate endDate);
 
-	public Optional<Order> getOrderByStatus(String status) {
-		return orderRepo.findByStatus(status);
-	}
+    List<Object[]> getHighestOrderedProduct();
 
-//	public void updateOrderStatus(int id, String status) {
-//		Optional<Order> o = orderRepo.findByOrderId(id);
-//		if (o != null) {
-//			o.setStatus(status);
-//		}
-//		orderRepo.save(o);
-//	}
+    String deleteByOrderId(int id);
 
-	public List<Order> getOrderByDate(LocalDate startDate, LocalDate endDate) {
-		return orderRepo.getOrderByDate(startDate, endDate);
-	}
-
-	public List<Object[]> getHighestOrderedProduct() {
-		Pageable pageable = PageRequest.of(0, 1);
-		return orderRepo.findHighestOrderedProduct(pageable);
-	}
-
-	public void deleteByOrderId(int id) {
-		orderRepo.deleteById(id);
-		//return "Successfully deleted";
-	}
-
-	public String deleteAll() {
-		orderRepo.deleteAll();
-		return "Deleted All entries";
-	}
+    String deleteAll();
 }

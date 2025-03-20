@@ -2,6 +2,7 @@ package com.project.repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 //import org.springframework.data.jpa.repository.Query;
@@ -13,7 +14,7 @@ import com.project.entity.Report;
 public interface ReportRepository extends JpaRepository<Report, Long>{
 
 	
-	public Report findById(long id);
+	public Optional<Report> findById(long id);
 	public List<Report> findByReportType(String reportType);
 
 	//public Report findReportByDate(LocalDate date);
