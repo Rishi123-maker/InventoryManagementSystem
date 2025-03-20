@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="reports")
@@ -16,9 +17,13 @@ public class Report {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long reportId;
+	@NotBlank
 	private String reportType;
+	@NotBlank
 	private LocalDate startDate;
+	@NotBlank
 	private LocalDate endDate;
+	@NotBlank
 	private String data;
 
 	

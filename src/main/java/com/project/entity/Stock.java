@@ -2,14 +2,17 @@ package com.project.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "stocks")
 public class Stock {
     @Id
     private int productId;
-
+    @NotNull
     private int quantity;
+    @NotBlank
     private String reorderLevel;
 
     @OneToOne(fetch = FetchType.LAZY)

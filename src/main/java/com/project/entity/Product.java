@@ -4,7 +4,10 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.project.validation.ValidName;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "Products")
@@ -13,13 +16,19 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Use IDENTITY for auto-increment
     private int productId;
     
+    
+    @ValidName
     private String name;
     
+    @NotBlank(message="this is not valid")
     @Column(name = "description")
     private String desc;
     @OneToMany(mappedBy="product",cascade=CascadeType.ALL)
     private List<Order> orders;
+    
+   @NotNull
     private double price;
+   @NotNull
     private int stockLevel;
 
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)// orphanRemoval = true)

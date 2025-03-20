@@ -1,13 +1,23 @@
 package com.project.entity;
+import java.util.List;
+
+import com.project.validation.ValidName;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 
 
 @Entity
+@Table(name="users")
 public class User {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
     private Long id;
+    
+   @OneToMany(cascade=CascadeType.ALL)
+    private List<Order>orders;
+    @Email
     @Column(unique = true)
     private String username;
     
@@ -17,7 +27,7 @@ public class User {
 		this.password = password;
 		this.role = role;
 	}
-
+   
 	private String password; 
     
     private String role; 

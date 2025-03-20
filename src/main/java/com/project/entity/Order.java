@@ -16,6 +16,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="orders")
@@ -23,7 +24,10 @@ public class Order {
 @Id
 @GeneratedValue(strategy=GenerationType.IDENTITY)
 private int orderId;
-private int customerId;
+
+@ManyToOne
+@JoinColumn(name="customerId", referencedColumnName="id")
+private User customer;
 @ManyToOne
 @JoinColumn(name="productId")
 private Product product;
@@ -37,18 +41,16 @@ public void setProduct(Product product) {
 private int quantity;
 private LocalDate orderDate;
 private String status;
+public Order() {
+	super();
+}
 public int getOrderId() {
 	return orderId;
 }
 public void setOrderId(int orderId) {
 	this.orderId = orderId;
 }
-public int getCustomerId() {
-	return customerId;
-}
-public void setCustomerId(int customerId) {
-	this.customerId = customerId;
-}
+
 
 public int getQuantity() {
 	return quantity;
@@ -67,5 +69,11 @@ public String getStatus() {
 }
 public void setStatus(String status) {
 	this.status = status;
+}
+public User getCustomer() {
+	return customer;
+}
+public void setCustomer(User customer) {
+	this.customer = customer;
 }
 }

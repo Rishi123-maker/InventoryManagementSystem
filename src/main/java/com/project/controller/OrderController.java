@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -70,12 +71,12 @@ public ResponseEntity<List<Object[]>>getHighestOrderedProduct()
 {
 	return new ResponseEntity<>(orderService.getHighestOrderedProduct(),HttpStatus.OK);
 }
-@GetMapping("/customer/deleteByOrderId/{id}")
+@DeleteMapping("/customer/deleteByOrderId/{id}")
 public ResponseEntity<String>deleteByOrderById(@PathVariable int id)
 {    
 	return new ResponseEntity<>(orderService.deleteByOrderId(id),HttpStatus.OK);
 }
-@GetMapping("/admin/deleteAll")
+@DeleteMapping("/admin/deleteAll")
 public ResponseEntity<String> deleteAll()
 {
 	return new ResponseEntity<>(orderService.deleteAll(),HttpStatus.OK);

@@ -18,6 +18,8 @@ import com.project.entity.Product;
 import com.project.entity.Stock;
 import com.project.service.ProductService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -29,22 +31,22 @@ public class ProductController {
 		return new ResponseEntity<String>("Hi this is products",HttpStatus.OK);
 	}
 	@PostMapping("/admin/create")
-public String create(@RequestBody Product product) throws Exception
+public String create(@Valid @RequestBody Product product) throws Exception
 {  
 		Product p=new Product();
 		Stock s=new Stock();
 	return productService.create(product);
 }
 	@GetMapping("/admin/getById/{id}")
-	public Optional<Product> getByProductId(@PathVariable int id) {
+	public Optional<Product> getByProductId( @Valid @PathVariable int id) {
 		return productService.getByProductId(id);
 	}
 	@GetMapping("/admin/getByName/{name}")
-	public Product getByProductName(@PathVariable String name) {
+	public Product getByProductName(@Valid @PathVariable String name) {
 		return productService.getByProductName(name);
 	}
 	@PutMapping("/admin/updateName/{id}/{name}")
-	public String updateProductName(@PathVariable int id, @PathVariable String name) {
+	public String updateProductName(@Valid @PathVariable int id,@Valid @PathVariable String name) {
 		return productService.updateProductName(id, name);
 	}
 	
@@ -54,7 +56,7 @@ public String create(@RequestBody Product product) throws Exception
 	}
 	
 	@PutMapping("/admin/updatePrice/{id}/{price}")
-	public String updateProductPrice(@PathVariable int id, @PathVariable double price) {
+	public String updateProductPrice(@Valid @PathVariable int id,@Valid @PathVariable double price) {
 		return productService.updateProductPrice(id, price);
 	}
 	
