@@ -32,11 +32,10 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
             	 .requestMatchers("/register/").permitAll()
                 .requestMatchers("/products/admin/**","/suppliers/admin/**","/reports/admin/**","/orders/admin/**","/stocks/admin/**").hasRole("ADMIN")
-                //hasAuthority("ROLE_ADMIN")  // Restrict `/admin/**` to ADMIN users
+             
                 .requestMatchers("/orders/customer/**").hasRole("CUSTOMER")
-                
-                // Restrict `/user/**` to USER role
-                // All other requests need authentication
+                .requestMatchers("/orders/getById/**").hasAnyRole("CUSTOMER","ADMIN")
+             
             )
           
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).httpBasic(Customizer.withDefaults()); // Stateless authentication
@@ -45,7 +44,7 @@ public class SecurityConfig {
     }
    
 
-    // ✅ Define AuthenticationManager (Uses AuthenticationProvider)
+   
    @Bean
    public PasswordEncoder passwordEncoder() {
 	   
@@ -53,9 +52,5 @@ public class SecurityConfig {
    
    }
    
-//    @Bean
-//    public MyUserDetailsService userDetailsService(UserRepository userRepository) {
-//    	System.out.println("user bean initialized");
-//        return new MyUserDetailsService(userRepository);
-//    }
+
 }

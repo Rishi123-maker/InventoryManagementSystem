@@ -20,12 +20,12 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	Optional<Order> findByStatus(String status);
 
 	@Query("SELECT o FROM Order o JOIN o.product p WHERE p.name = :name")
-	Optional<Order> findByProductName(@Param("name") String name);
+	List<Optional<Order>> findByProductName(@Param("name") String name);
 
-	@Query(value = "Select * from Orders where order_date > :startDate AND order_date<:endDate", nativeQuery = true)
-	List<Order> getOrderByDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+	@Query(value = "Select * from Orders where order_date = :date ", nativeQuery = true)
+	List<Order> getOrderByDate(@Param("date") LocalDate date);
 
-	@Query(value = "Select product_id,count(quantity) from orders Group by product_id order by count(quantity) desc", nativeQuery = true)
+	@Query(value = "Select product_id,sum(quantity) from orders Group by product_id order by sum(quantity) desc", nativeQuery = true)
 	List<Object[]> findHighestOrderedProduct(Pageable pageable);
 
 	@Query("DELETE FROM Order o WHERE o.orderId = :id")

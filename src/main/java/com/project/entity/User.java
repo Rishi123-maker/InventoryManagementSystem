@@ -15,11 +15,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-   @OneToMany(cascade=CascadeType.ALL)
+   @OneToMany(mappedBy="customer",cascade=CascadeType.ALL)
     private List<Order>orders;
-    @Email
+    
+   @Email
     @Column(unique = true)
     private String username;
+    private String password; 
+    
+    private String role; 
     
     public User(String username, String password, String role) {
 		super();
@@ -27,10 +31,7 @@ public class User {
 		this.password = password;
 		this.role = role;
 	}
-   
-	private String password; 
-    
-    private String role; 
+
 
    
 	public Long getId() {

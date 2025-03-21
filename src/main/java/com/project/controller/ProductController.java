@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.entity.Product;
 import com.project.entity.Stock;
+import com.project.entity.enums.StockLevel;
 import com.project.service.ProductService;
+import com.project.serviceimpl.ProductServiceImpl;
 
 import jakarta.validation.Valid;
 
@@ -31,10 +33,9 @@ public class ProductController {
 		return new ResponseEntity<String>("Hi this is products",HttpStatus.OK);
 	}
 	@PostMapping("/admin/create")
-public String create(@Valid @RequestBody Product product) throws Exception
+public Product create(@Valid @RequestBody Product product) throws Exception
 {  
-		Product p=new Product();
-		Stock s=new Stock();
+		
 	return productService.create(product);
 }
 	@GetMapping("/admin/getById/{id}")
@@ -51,7 +52,7 @@ public String create(@Valid @RequestBody Product product) throws Exception
 	}
 	
 	@PutMapping("/admin/updateDesc/{id}/{description}")
-	public String updateProductDescription(@PathVariable int id, @PathVariable String description) {
+	public String updateProductDescription(@PathVariable int id,@Valid @PathVariable String description) {
 		return productService.updateProductDescription(id, description);
 	}
 	
@@ -61,7 +62,7 @@ public String create(@Valid @RequestBody Product product) throws Exception
 	}
 	
 	@PutMapping("/admin/updateLevel/{id}/{stockLevel}")
-	public String updateProductStockLevel(@PathVariable int id, @PathVariable int stockLevel) {
+	public String updateProductStockLevel(@PathVariable int id, @PathVariable StockLevel stockLevel) {
 		return productService.updateProductStockLevel(id, stockLevel);
 	}
 	

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.entity.Supplier;
-import com.project.service.SupplierService;
+import com.project.serviceimpl.SupplierServiceImpl;
+
+import jakarta.validation.Valid;
 
 
 
@@ -22,7 +24,7 @@ import com.project.service.SupplierService;
 public class SupplierController {
 	
 	@Autowired
-	private SupplierService supplierService;
+	private SupplierServiceImpl supplierService;
 	
 	@GetMapping("/admin/getAll")
 	public List<Supplier> getSupplier(Supplier s){
@@ -39,7 +41,7 @@ public class SupplierController {
 		return supplierService.getSupplierById(id);
 	}
 	@GetMapping("/admin/getByName/{name}")
-	public Supplier getSupplierByName(@PathVariable String name) {
+	public Supplier getSupplierByName(@Valid @PathVariable String name) {
 		return supplierService.getSupplierByName(name);
 	}
 	
@@ -49,7 +51,7 @@ public class SupplierController {
 	}
 	
 	@PutMapping("/admin/updateName/{id}/{name}")
-	public String updateSupplierById(@PathVariable int id, @PathVariable String name) {
+	public String updateSupplierById(@PathVariable int id, @Valid @PathVariable String name) {
 		return supplierService.updateSupplier(id, name);
 	}
 	
@@ -64,7 +66,7 @@ public class SupplierController {
 
 	}
 	@PutMapping("/updateProductsSupplied/{id}/{productsSupplied}")
-	public String updateSupplierProductsSupplied(@PathVariable int id, @PathVariable String productsSupplied) {
+	public String updateSupplierProductsSupplied(@PathVariable int id,@Valid @PathVariable String productsSupplied) {
 		return supplierService.updateSupplierProductsSupplied(id, productsSupplied);
 
 	}

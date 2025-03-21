@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.entity.Stock;
 import com.project.service.StockService;
+import com.project.serviceimpl.StockServiceImpl;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/stocks")
@@ -31,7 +34,7 @@ public class StockController {
 	}
 
 	@GetMapping("/admin/getById/{id}")
-	public ResponseEntity<Optional<Stock>> getStockByID(@PathVariable int id) {
+	public ResponseEntity<Optional<Stock>> getStockByID(@Valid @PathVariable int id) {
 		return new ResponseEntity<>(stockService.getStockById(id), HttpStatus.OK);
 	}
 
@@ -42,7 +45,7 @@ public class StockController {
 	}
 
 	@GetMapping("/admin/getStockByReorderLevel/{reorderLevel}")
-	public ResponseEntity<List<Stock>> getStockByReorderLevel(@PathVariable String reorderLevel) {
+	public ResponseEntity<List<Stock>> getStockByReorderLevel(@Valid @PathVariable String reorderLevel) {
 
 		stockService.getStockByReorderLevel(reorderLevel);
 		return new ResponseEntity<>(stockService.getStockByReorderLevel(reorderLevel), HttpStatus.OK);
@@ -54,7 +57,7 @@ public class StockController {
 	}
 
 	@DeleteMapping("/admin/deleteById/{id}")
-	public ResponseEntity<String> deleteById(@PathVariable int id) {
+	public ResponseEntity<String> deleteById(@Valid @PathVariable int id) {
 		return new ResponseEntity<String>(stockService.deleteById(id), HttpStatus.OK);
 	}
 
@@ -69,7 +72,7 @@ public class StockController {
 	}
 
 	@PutMapping("/admin/updateStockQuantity/{id}/{quantity}")
-	public ResponseEntity<String> updateStockQuantity(@PathVariable int id, @PathVariable int quantity) {
+	public ResponseEntity<String> updateStockQuantity(@PathVariable int id, @Valid @PathVariable int quantity) {
 		String response = stockService.updateStockQuantity(id, quantity);
 		if (response.equals("Stock quantity updated successfully")) {
 			return new ResponseEntity<>(response, HttpStatus.OK);

@@ -11,23 +11,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.entity.User;
 import com.project.repository.UserRepository;
-
+import com.project.service.UserService;
+import com.project.serviceimpl.UserServiceImpl;
 @RestController
-@RequestMapping("/register")
+@RequestMapping
 public class UserController {
-    @Autowired
-	private UserRepository userRepo;
-    @Autowired
-	private PasswordEncoder passwordEncoder;
-    @PostMapping("/")
+	@Autowired
+	private UserService userService;
+    
+    @PostMapping("/register/")
     public User register(@RequestBody User user)
     {
-  	System.out.println("entered");
-    	String password=passwordEncoder.encode(user.getPassword());
-    	System.out.println(password);
-    	User newUser=new User(user.getUsername(),password,"ROLE_"+user.getRole());
-    	User dummy=userRepo.save(newUser);
-    	System.out.println(userRepo.findByUsername(user.getUsername()).toString());
-		return dummy;
+  return userService.register(user);
+		
     }
 }

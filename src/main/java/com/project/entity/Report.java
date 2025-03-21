@@ -3,12 +3,15 @@ package com.project.entity;
 //import java.sql.Date;
 import java.time.LocalDate;
 
+import com.project.validation.ValidName;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+
 
 @Entity
 @Table(name="reports")
@@ -17,7 +20,7 @@ public class Report {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long reportId;
-	@NotBlank
+	@ValidName
 	private String reportType;
 	@NotBlank
 	private LocalDate startDate;
@@ -59,21 +62,6 @@ public class Report {
 		this.reportType = reportType;
 	}
 
-//	public Date getStartDate() {
-//		return startDate;
-//	}
-//
-//	public void setStartDate(Date startDate) {
-//		this.startDate = startDate;
-//	}
-//
-//	public Date getEndDate() {
-//		return endDate;
-//	}
-//
-//	public void setEndDate(Date endDate) {
-//		this.endDate = endDate;
-//	}
 
 	public String getData() {
 		return data;
