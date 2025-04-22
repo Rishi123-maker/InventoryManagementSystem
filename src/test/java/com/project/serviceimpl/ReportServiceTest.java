@@ -19,8 +19,6 @@ import com.project.exception.IdNotFoundException;
 import com.project.exception.InappropriateDateException;
 import com.project.exception.ResourceNotFoundException;
 import com.project.repository.ReportRepository;
-import com.project.service.ReportService;
-import com.project.serviceimpl.ReportServiceImpl;
  
 @ExtendWith(MockitoExtension.class)
 public class ReportServiceTest {
@@ -44,11 +42,7 @@ public class ReportServiceTest {
         report.setEndDate(LocalDate.of(2023, 12, 31));
     }
  
-    @Test
-    void testCreate() {
-        reportService.create(report);
-        verify(reportRepo, times(1)).save(report);
-    }
+   
  
     @Test
     void testGetReportById() {

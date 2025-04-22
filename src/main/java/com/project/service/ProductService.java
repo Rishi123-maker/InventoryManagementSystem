@@ -7,23 +7,21 @@ import com.project.entity.Product;
 import com.project.entity.enums.StockLevel;
 
 public interface ProductService {
-    Product create(Product p) throws Exception;
+	Product create(Product p) throws Exception;
 
-    List<Product> getProductDetails();
+	List<Product> getProductDetails();
 
-    Optional<Product> getByProductId(int id);
+	Optional<Product> getByProductId(int id);
 
-    Product getByProductName(String name);
- 
-    String updateProductName(int id, String name);
+	Product getByProductName(String name);
 
-    String updateProductDescription(int id, String description);
+	String updateProductName(int id, String name);
 
-    String updateProductPrice(int id, double price);
+	String updateProductDescription(int id, String description);
 
-    String updateProductStockLevel(int id, StockLevel stockLevel);
+	String updateProductPrice(int id, double price);
 
-    String deleteById(int id);
-
-    String deleteAll();
+	String deleteById(int id);
+  List<Product> getAll();
+	String deleteAll();
 }

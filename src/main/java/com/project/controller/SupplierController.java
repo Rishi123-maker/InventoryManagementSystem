@@ -1,8 +1,10 @@
 package com.project.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,64 +19,65 @@ import com.project.serviceimpl.SupplierServiceImpl;
 
 import jakarta.validation.Valid;
 
-
-
 @RestController
 @RequestMapping("/suppliers")
 public class SupplierController {
-	
+
 	@Autowired
 	private SupplierServiceImpl supplierService;
-	
+
+	@CrossOrigin(origins="*")
 	@GetMapping("/admin/getAll")
-	public List<Supplier> getSupplier(Supplier s){
-		return supplierService.getAllSuppliers();
+	public ResponseEntity<List<Supplier>> getSupplier(Supplier s) {
+		return new ResponseEntity<>(supplierService.getAllSuppliers(),HttpStatus.OK);
 	}
-	
+	@CrossOrigin(origins="*")
 	@PostMapping("/admin/create")
-	public String create(@RequestBody Supplier s) {
-		return supplierService.createSupplierDetails(s);
+	public ResponseEntity<Supplier> create(@RequestBody Supplier s) {
+		return new ResponseEntity<>(supplierService.createSupplierDetails(s),HttpStatus.OK);
 	}
-	
+	@CrossOrigin(origins="*")
 	@GetMapping("/admin/getById/{id}")
-	public Supplier getSupplierById(@PathVariable int id) {
-		return supplierService.getSupplierById(id);
+	public ResponseEntity<Supplier> getSupplierById(@PathVariable int id) {
+		return new ResponseEntity<>(supplierService.getSupplierById(id),HttpStatus.OK);
 	}
+     
 	@GetMapping("/admin/getByName/{name}")
-	public Supplier getSupplierByName(@Valid @PathVariable String name) {
-		return supplierService.getSupplierByName(name);
+	public ResponseEntity<Supplier> getSupplierByName(@Valid @PathVariable String name) {
+		return new  ResponseEntity<>(supplierService.getSupplierByName(name),HttpStatus.OK);
 	}
-	
+	@CrossOrigin(origins="*")
 	@DeleteMapping("/admin/delete/{id}")
-	public String deleteSupplierById(@PathVariable int id) {
-		return supplierService.deleteSupplierById(id);
+	public ResponseEntity<String> deleteSupplierById(@PathVariable int id) {
+		return new ResponseEntity<>(supplierService.deleteSupplierById(id),HttpStatus.OK);
 	}
-	
+
 	@PutMapping("/admin/updateName/{id}/{name}")
-	public String updateSupplierById(@PathVariable int id, @Valid @PathVariable String name) {
-		return supplierService.updateSupplier(id, name);
+	public ResponseEntity<String> updateSupplierById(@PathVariable int id, @Valid @PathVariable String name) {
+		return new ResponseEntity<>(supplierService.updateSupplier(id, name),HttpStatus.OK);
 	}
-	
-//	@PutMapping("/updateContactInfo/{id}")
-//	public String updateSupplierContactInfo(@PathVariable int id, @RequestBody String contactInfo) {
-//		return supplierService.updateSupplierContactInfo(id, contactInfo);
-//
-//	}
+
 	@PutMapping("/admin/updateContactInfo/{id}/{contactInfo}")
-	public String updateSupplierContactInfo(@PathVariable int id, @PathVariable String contactInfo) {
-		return supplierService.updateSupplierContactInfo(id, contactInfo);
+	public ResponseEntity<String> updateSupplierContactInfo(@PathVariable int id, @PathVariable String contactInfo) {
+		return new ResponseEntity<>(supplierService.updateSupplierContactInfo(id, contactInfo),HttpStatus.OK);
 
 	}
-	@PutMapping("/updateProductsSupplied/{id}/{productsSupplied}")
-	public String updateSupplierProductsSupplied(@PathVariable int id,@Valid @PathVariable String productsSupplied) {
-		return supplierService.updateSupplierProductsSupplied(id, productsSupplied);
+	@CrossOrigin(origins="*")
+	@PutMapping("/admin/update")
+	public ResponseEntity<Supplier>update(@RequestBody Supplier s)
+	{ 
+	return new ResponseEntity<>(supplierService.update(s),HttpStatus.OK);}
+
+	@PutMapping("/admin/updateProductsSupplied/{id}/{productsSupplied}")
+	public ResponseEntity<String> updateSupplierProductsSupplied(@PathVariable int id, @Valid @PathVariable String productsSupplied) {
+		return new ResponseEntity<>(supplierService.updateSupplierProductsSupplied(id, productsSupplied),HttpStatus.OK);
 
 	}
-	
+
 	@DeleteMapping("/admin/deleteAll")
-	public String deleteAllSuppliers() {
-	    return supplierService.deleteAllSuppliers();
-//	    return "All suppliers have been deleted successfully.";
+	public ResponseEntity<String> deleteAllSuppliers() {
+		return new ResponseEntity<>(supplierService.deleteAllSuppliers(),HttpStatus.OK);
+
 	}
-	
+
 }

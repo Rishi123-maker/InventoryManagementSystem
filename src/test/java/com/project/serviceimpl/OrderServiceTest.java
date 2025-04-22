@@ -8,19 +8,14 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-
 import com.project.entity.Order;
 import com.project.entity.Product;
 import com.project.entity.Stock;
-import com.project.entity.enums.StockLevel;
 import com.project.exception.IdNotFoundException;
 import com.project.exception.InappropriateDateException;
 import com.project.exception.ResourceNotFoundException;
@@ -144,17 +139,7 @@ class OrderServiceImplTest {
         assertThrows(InappropriateDateException.class, () -> orderService.getOrderByDate(LocalDate.now()));
     }
 
-//    @Test
-//    void testGetHighestOrderedProduct() {
-//        Object[] product = new Object[] { "Product1", 10L };
-//        List<Object[]> products = Arrays.asList(product);
-//        Pageable pageable = PageRequest.of(0, 1);
-//        when(orderRepo.findHighestOrderedProduct(pageable)).thenReturn(products);
-//
-//        List<Object[]> result = orderService.getHighestOrderedProduct();
-//
-//        assertEquals(products, result);
-//    }
+
 
     @Test
     void testDeleteByOrderId() {

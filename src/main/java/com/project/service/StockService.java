@@ -6,20 +6,17 @@ import java.util.Optional;
 import com.project.entity.Stock;
 
 public interface StockService {
-    String create(Stock stock);
+	
 
-    Optional<Stock> getStockById(int id);
+	Optional<Stock> getStockById(int id);
 
-    List<Stock> getStockByReorderLevel(String reorderLevel);
+	List<Stock> getStockByReorderLevel(String reorderLevel);
 
-    List<Object[]> getHighestQuantity();
+	List<Object[]> getHighestQuantity();
 
-    String deleteById(int id);
+	List<Stock> findAll();
 
-    String deleteAll();
+	String updateStockQuantity(int id, int quantity);
 
-    List<Stock> findAll();
-
-    String updateStockQuantity(int id, int quantity);
-    void updateReorderLevel(int id);
+	void updateReorderLevel(int id);
 }

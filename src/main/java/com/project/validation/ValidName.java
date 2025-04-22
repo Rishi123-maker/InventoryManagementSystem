@@ -12,8 +12,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidName {
 	String message() default "Name should not contain symbols or numbers";
-
 	Class<?>[] groups() default {};
-
 	Class<? extends Payload>[] payload() default {};
 }

@@ -10,15 +10,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.project.entity.Report;
-@Repository
-public interface ReportRepository extends JpaRepository<Report, Long>{
 
-	
+@Repository
+public interface ReportRepository extends JpaRepository<Report, Long> {
+
 	public Optional<Report> findById(long id);
+
 	public List<Report> findByReportType(String reportType);
 
-	//public Report findReportByDate(LocalDate date);
-	
+	// public Report findReportByDate(LocalDate date);
+
 	public List<Report> findByStartDateBetween(LocalDate startDate, LocalDate endDate);
-	
+
 }

@@ -6,18 +6,21 @@ import java.util.Optional;
 
 import com.project.entity.Report;
 
+
+
 public interface ReportService {
-    void create(Report report);
+	Report create(Report report) throws Exception;
 
-    Optional<Report> getReportById(long id);
+	Optional<Report> getReportById(long id);
 
-    List<Report> findAllReports();
+	List<Report> findAllReports();
 
-    void deleteById(long id);
+	void deleteById(long id);
 
-    void updateData(long id, Report report);
+	void updateData(long id, Report report);
 
-    List<Report> getReportByReportType(String reportType);
+	List<Report> getReportByReportType(String reportType);
 
-    List<Report> getReportByDate(LocalDate startDate, LocalDate endDate);
+	List<Report> getReportByDate(LocalDate startDate, LocalDate endDate);
+	
 }

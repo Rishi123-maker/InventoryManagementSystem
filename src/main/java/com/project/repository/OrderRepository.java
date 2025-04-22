@@ -31,5 +31,6 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 	@Query("DELETE FROM Order o WHERE o.orderId = :id")
 	void deleteByOrderId(@Param("id") int id);
 
+	List<Order> getByCustomerId(int id);
 
 }

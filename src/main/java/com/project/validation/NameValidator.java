@@ -7,8 +7,8 @@ public class NameValidator implements ConstraintValidator<ValidName, String> {
 
 	@Override
 	public boolean isValid(String name, ConstraintValidatorContext context) {
-		
-	return name != null && name.matches("^[a-zA-Z\\s]+$");
+
+		return name != null && name.matches("^[a-zA-Z\\s]+$");
 	}
 
 }

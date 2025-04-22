@@ -9,23 +9,27 @@ import com.project.entity.Order;
 import jakarta.transaction.Transactional;
 
 public interface OrderService {
-	@Transactional
-    Order create(Order order) throws Exception;
 
-    Order getOrderById(int id);
+	Order create(Order order) throws Exception;
 
-    List<Optional<Order>> getOrderByProductName(String name);
+	Order getOrderById(int id);
 
-    Optional<Order> getOrderByStatus(String status);
+	List<Optional<Order>> getOrderByProductName(String name);
 
-    void updateOrderStatus(int id, String status);
+	Optional<Order> getOrderByStatus(String status);
 
-    List<Order> getOrderByDate(LocalDate date);
+	void updateOrderStatus(int id, String status);
 
-    List<Object[]> getHighestOrderedProduct();
+	List<Order> getOrderByDate(LocalDate date);
 
-    String deleteByOrderId(int id);
-    String deleteAll();
+	List<Object[]> getHighestOrderedProduct();
 
+	String deleteByOrderId(int id);
+
+	String deleteAll();
+
+	List<Order> getAll();
+
+	List<Order> getByCustomerId(int id);
 
 }

@@ -4,32 +4,30 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "stocks")
 public class Stock {
-    @Id
-    private int productId;
-    @NotNull
-    private int quantity;
-    @NotBlank
-    private String reorderLevel;
+	@Id
+	private int productId;
+	@NotNull(message ="this is not null")
+	private int quantity;
+	
+	private String reorderLevel;
+	
+	@ToString.Exclude
+	@OneToOne(fetch = FetchType.LAZY)
+	@MapsId
+	@JoinColumn(name = "productId")
+	@JsonBackReference
+	private Product product;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
-    @JoinColumn(name = "productId")
-    @JsonBackReference // Helps prevent infinite recursion
-    private Product product;
-    // Getters and Setters
-    public int getProductId() { return productId; }
-    public void setProductId(int productId) { this.productId = productId; }
-
-    public Product getProduct() { return product; }
-    public void setProduct(Product product) { this.product = product; }
-
-    public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
-
-    public String getReorderLevel() { return reorderLevel; }
-    public void setReorderLevel(String reorderLevel) { this.reorderLevel = reorderLevel; }
+	
 }
