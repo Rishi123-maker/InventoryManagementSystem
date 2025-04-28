@@ -26,8 +26,6 @@ public class StockServiceImpl implements StockService {
 	private StockRepository stockRepo;
 	@Autowired
 	private ProductRepository productRepo;
-
-
 	@Override
 	public Optional<Stock> getStockById(int id) {
 		logger.log(Level.INFO, "Fetching stock by ID: {0}", id);
