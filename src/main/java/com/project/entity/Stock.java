@@ -1,37 +1,33 @@
 package com.project.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name="stocks")
+@Table(name = "stocks")
 public class Stock {
-
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int productId;
+	@NotNull(message ="this is not null")
 	private int quantity;
+	
 	private String reorderLevel;
-	public int getProductId() {
-		return productId;
-	}
-	public void setProductId(int productId) {
-		this.productId = productId;
-	}
-	public int getQuantity() {
-		return quantity;
-	}
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-	public String getReorderLevel() {
-		return reorderLevel;
-	}
-	public void setReorderLevel(String reorderLevel) {
-		this.reorderLevel = reorderLevel;
-	}
+	
+	@ToString.Exclude
+	@OneToOne(fetch = FetchType.LAZY)
+	@MapsId
+	@JoinColumn(name = "productId")
+	@JsonBackReference
+	private Product product;
+
 	
 }

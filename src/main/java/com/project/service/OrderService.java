@@ -2,64 +2,34 @@ package com.project.service;
 
 import java.time.LocalDate;
 import java.util.List;
-
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.project.entity.Order;
 
-import com.project.repository.OrderRepository;
+import jakarta.transaction.Transactional;
 
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+public interface OrderService {
 
-@Service
-public class OrderService {
-	@Autowired
-	private OrderRepository orderRepo;
+	Order create(Order order) throws Exception;
 
-	public void create(Order order) {
-		orderRepo.save(order);
-	}
+	Order getOrderById(int id);
 
-	public Order getOrderById(int id) {
-		return orderRepo.findByOrderId(id);
-	}
+	List<Optional<Order>> getOrderByProductName(String name);
 
-	public Optional<Order> getOrderByProductName(String name) {
-		return orderRepo.findByProductName(name);
-	}
+	Optional<Order> getOrderByStatus(String status);
 
-	public Optional<Order> getOrderByStatus(String status) {
-		return orderRepo.findByStatus(status);
-	}
+	void updateOrderStatus(int id, String status);
 
-	public void updateOrderStatus(int id, String status) {
-		Order o = orderRepo.findByOrderId(id);
-		if (o != null) {
-			o.setStatus(status);
-		}
-		orderRepo.save(o);
-	}
+	List<Order> getOrderByDate(LocalDate date);
 
-	public List<Order> getOrderByDate(LocalDate startDate, LocalDate endDate) {
-		return orderRepo.getOrderByDate(startDate, endDate);
-	}
+	List<Object[]> getHighestOrderedProduct();
 
-	public List<Object[]> getHighestOrderedProduct() {
-		Pageable pageable = PageRequest.of(0, 1);
-		return orderRepo.findHighestOrderedProduct(pageable);
-	}
+	String deleteByOrderId(int id);
 
-	public String deleteByOrderId(int id) {
-		orderRepo.deleteById(id);
-		return "Successfully deleted";
-	}
+	String deleteAll();
 
-	public String deleteAll() {
-		orderRepo.deleteAll();
-		return "Deleted All entries";
-	}
+	List<Order> getAll();
+
+	List<Order> getByCustomerId(int id);
+
 }
